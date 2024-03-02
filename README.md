@@ -4,7 +4,7 @@
 Hi👋  I'm Shingo Morimoto, an University student in Japan. I'm so interested in creating LLM application using LangChain. 
 
 The `codex` command,including subcommands: gen-commit, gen-readme, describe, suggest-comment, suggest-code, is a powerful tool to integrate your code with LLM power.✨
-Currently, you can execute gen-commit to automate the creation of Git commit message from diff between HEAD commit and index.
+Currently, you can execute `codex gen-commit` to automate the creation of Git commit message from diff between HEAD commit and index.
 
 ## 🌟 Getting Started
 
