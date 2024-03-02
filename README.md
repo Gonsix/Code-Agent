@@ -10,9 +10,10 @@ The `codex` command,including subcommands: gen-commit, gen-readme, describe, sug
 
 
 ### Install code-agent with pip 📁: 
-    To use the codex command anywhere install it with pip:
 
-    `pip install code-agent` or `pip install --break-system-packages code-agent ` if you are using newer pip. 
+To use the codex command anywhere install it with pip:
+
+`pip install code-agent` or `pip install --break-system-packages code-agent ` if you are using newer pip. 
 
 
 ###  **Usage** 🚀:
