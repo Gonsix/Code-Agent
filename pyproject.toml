@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "code-agent"
-version = "0.1.3.2"
+version = "0.1.3.3"
 description = "🦾 🤖 ChatGPT-based Agent tool for support your software development."
 authors = ["Shingo Morimoto <gonsix3@gmail.com>"]
 repository = "https://github.com/Gonsix/Code-Agent"
