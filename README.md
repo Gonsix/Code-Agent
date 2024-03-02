@@ -16,6 +16,10 @@ To use the codex command anywhere install it with pip:
 
 `pip install code-agent` or `pip install --break-system-packages code-agent ` if you are using newer pip. 
 
+### Export OPENAI_API_KEY ⚙️:
+
+You must exoport an `OPENAI_API_KEY` in your environment.
+Also, you must have an access to the GPT-4 model to call OpenAI API.
 
 ###  **Usage** 🚀:
 
