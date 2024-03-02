@@ -1,7 +1,7 @@
 # Code-Agent 🚀
 ## Use `codex` command to automate software development workflows. ✨
 
-Hi! I'm Shingo Morimoto, an University student in Japan. I'm so interested in creating LLM application using LangChain. 
+Hi!👋 I'm Shingo Morimoto, an University student in Japan. I'm so interested in creating LLM application using LangChain. 
 
 The `codex` command,including subcommands: gen-commit, gen-readme, describe, suggest-comment, suggest-code, is a powerful tool to integrate your code with LLM power.✨
 
