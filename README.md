@@ -44,6 +44,21 @@ $ codex --help
 │ suggest-comment     [Unimplemented feature]: Suggest comment for source code in specified files -> codex suggest_comment --help                            │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
+
+### Generation Result Example🤩:
+```
+    🌟 Implement Rust cat command with line numbering features
+
+    Changes(4):
+     🚩 Added command-line parsing   @ src/lib.rs
+         Integrated clap library for command-line argument parsing with custom Args struct, supporting file inputs and line numbering options.
+     🚩 Implemented file reading functionality   @ src/lib.rs
+         Developed file opening and reading capabilities, handling both standard input and file input streams.
+     🚩 Implemented line numbering features   @ src/lib.rs
+         Added functionality to number lines and number nonblank lines as per command-line arguments.
+     🚩 Added main application logic   @ src/main.rs
+         Created the main function to parse arguments and execute the application logic, with error handling and process exit on failure.
+```
 ## Dive in! 🌊
 
 With these steps, you're all set to revolutionize your Git commits. May your coding be effortless and your repositories vibrant! 💫
