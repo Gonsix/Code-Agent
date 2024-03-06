@@ -32,7 +32,7 @@ class CodeRefactorAgent(object):
 
 
         # TODO: settingファイルからOPENAI_API_KEYを読み込み
-        llm = ChatOpenAI(model="gpt-4-1106-preview", temperature=0.0, api_key="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")
+        llm = ChatOpenAI(model="gpt-4-1106-preview", temperature=0.0)
 
         prompt = ChatPromptTemplate.from_messages(messages=[
             ("system", settings['code_refactorer'].SYSTEM_TEMPLATE),

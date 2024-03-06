@@ -1,3 +1,4 @@
+import sys
 def load_from_file(path: str) -> str:
     """ ファイルの内容を読み込み、行番号をつける """
     f = open(path, 'r')
@@ -28,7 +29,7 @@ def get_file_contents(files: list[str])-> str:
 
 
 if __name__ == '__main__':
-    files = ["./file1.txt", "file2.txt"]
+    files = sys.argv[1:]
 
     data = load_from_files(files)
 
