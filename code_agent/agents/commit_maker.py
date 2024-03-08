@@ -1,4 +1,5 @@
 import sys
+import os
 
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import ChatPromptTemplate
@@ -15,20 +16,22 @@ def gen_commit_msg(repo:str = "."):
     patch = get_diff_head_index()
     if patch is None:
         print("codex commit Error: Nothing to commit.")
-        sys.exit(2)
+        os._exit(2)
+
 
     llm = ChatOpenAI(model="gpt-4-1106-preview", temperature=0.0)
-
+    # 設定ファイルからシステムテンプレートとユーザーテンプレートを読み出してプロンプトを定義
     prompt = ChatPromptTemplate.from_messages(messages=[
         ("system", settings.SYSTEM_TEMPLATE),
         ("user", settings.USER_TEMPLATE)
     ])
-
-
+    # CommitMessageオブジェクトを渡してパーサーを作成
     parser = PydanticOutputParser(pydantic_object=CommitMessage) # 
 
+    # チェインの定義
     chain = prompt | llm | parser
 
+    # 実際にここでOpenAI API が呼ばれる
     result: CommitMessage = chain.invoke({
         "format_instruction": parser.get_format_instructions(),
         "patch": patch,
@@ -53,18 +56,21 @@ def gen_commit_msg(repo:str = "."):
     print(commit_message)
     print("# <<<<< commit message <<<<<")
 
+    try 
+        answer = input('Do you want to commit using this message?(y/n) > ').strip().lower()
 
-    answer = input('Do you want to commit using this message?(y/n) > ')
-
-    match answer:
-        case "y":
+        if answer == 'y':
             git_commit(repo_path=repo, commit_message=commit_message)
             print("✅ Successfully committed.")
-        case "n":
+        elif answer == 'n':
             print("Okay, finishing program.")
-            sys.exit(0)
-        case _:
-            raise ValueError("Not a point")
+            os._exit(0)
+        else:
+            raise ValueError("Invalid input")
+        
+    except KeyboardInterrupt:
+        print("\nOperation cancelled by the user.")
+        sys.exit(1)
 
 if __name__ == '__main__':
     gen_commit_msg(".")

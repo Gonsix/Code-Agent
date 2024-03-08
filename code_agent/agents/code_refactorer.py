@@ -19,16 +19,7 @@ class CodeRefactorAgent(object):
 
     def run(self):
 
-        # lexer_name = Syntax.guess_lexer(path="tests/inputs/wc_command.rs")
-        # lexer_name = Syntax.guess_lexer(path="code_agent/agents/commit_maker.py")
-        # print(lexer_name)
-        # sys.exit(0)
-
-        # print(settings['code_refactorer'].language)
-        # print(f'SYSTEM_TEMPLATE:\n{settings['code_refactorer'].SYSTEM_TEMPLATE}')
-        # print(f'USER_TEMPLATE:\n{settings['code_refactorer'].USER_TEMPLATE}')
         code_chunks = get_file_contents([str(path) for path in self.target_files])
-        # print(code_chunks)
 
 
         # TODO: settingファイルからOPENAI_API_KEYを読み込み
@@ -53,19 +44,24 @@ class CodeRefactorAgent(object):
         # show result
 
         # richライブラリを使った出力
+        theme = "monokai"
+        line_numbers = True
         console = Console()
 
         console.print("[bold magenta]🧐 Code Suggestions:[/bold magenta]")
+        # FIXME: highlightされるコードの行が一行ズレている。Pythonコードではズレが発生しなかった。Rustではズレている
 
         for suggestion in result.suggestions:
+            # ファイルに固有なのでlexer を毎回作成する
+            lexer = Syntax.guess_lexer(path=suggestion.relevant_file)
+            
             console.print(f"[bold yellow]- {suggestion.suggestion_description}[/bold yellow]")
             console.print(f"   in [green]{suggestion.relevant_file}[/green]")
             console.print("\n[bold]From:[/bold]")
-            syntax = Syntax(suggestion.relevant_code, Syntax.guess_lexer(path=suggestion.relevant_file), theme="monokai", line_numbers=True, start_line=suggestion.relevant_line_start)
+            syntax = Syntax(suggestion.relevant_code, lexer, theme=theme, line_numbers=line_numbers, start_line=suggestion.relevant_line_start)
             console.print(syntax)
             console.print("[bold]Into:[/bold]")
-            # TODO: improved_codeの方はいつもrelevent_line_startから始まるとは限らないので、LLMの出力を変更しimproved_codeのコードの始まるライン番号を的確なものに変更する
-            syntax = Syntax(suggestion.improved_code,Syntax.guess_lexer(path=suggestion.relevant_file),  theme="monokai", line_numbers=True, start_line=suggestion.relevant_line_start)
+            syntax = Syntax(suggestion.improved_code, lexer, theme=theme, line_numbers=line_numbers, start_line=suggestion.relevant_line_start)
             console.print(syntax)
             console.print("\n")
 

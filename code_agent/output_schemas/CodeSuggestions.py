@@ -4,8 +4,8 @@ from langchain_core.pydantic_v1 import BaseModel, Field
 
 class FileCodeSuggestion(BaseModel):
     relevant_file: str = Field(description="a relevant file you want to subject")
-    relevant_code: str = Field(description="a relevant code block what you with the user to improve from")
-    relevant_line_start: int = Field(description="the line number that the relevant code start")
+    relevant_code: str = Field(description="a relevant code block that the user is going to improve, including original comments")
+    relevant_line_start: int = Field(description="the line number that the relevant code block start")
     relevant_line_end: int = Field(description="the line number that the relevant code end")
     improved_code: str = Field(description="an improved code snippet, that you want to suggest for user")
     suggestion_description: str = Field(description="a concise and actionable description for your improvement suggestion")
