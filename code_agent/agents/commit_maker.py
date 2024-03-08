@@ -56,7 +56,7 @@ def gen_commit_msg(repo:str = "."):
     print(commit_message)
     print("# <<<<< commit message <<<<<")
 
-    try 
+    try:
         answer = input('Do you want to commit using this message?(y/n) > ').strip().lower()
 
         if answer == 'y':
