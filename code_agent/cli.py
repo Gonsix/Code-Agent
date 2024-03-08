@@ -11,13 +11,7 @@ from code_agent import CodeRefactorAgent
 
 app = typer.Typer()
 
-@app.command()
-def say_hello():
-    print("hello")
 
-@app.command()
-def say_goodbye():
-    print("goodbyte")
 
 @app.command(
     help="Generate a commit message from Git diff between HEAD and index.",
