@@ -5,9 +5,11 @@ from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate, ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field, validator
 from langchain_openai import ChatOpenAI, OpenAI
-from rich.console import Console
-from rich.markdown import Markdown
+from rich.console import Console, Group
 from rich.syntax import Syntax
+from rich.theme import Theme
+from rich.panel import Panel
+from rich.text import Text
 
 from code_agent.output_schemas import CodeSuggestions
 from code_agent.config import settings
@@ -42,27 +44,39 @@ class CodeRefactorAgent(object):
         })
 
         # show result
-
-        # richライブラリを使った出力
+        def align(code_snippet: str, width: int) -> str:
+            """
+            引数で受け取った文字列型のコードスニペットを全ての行でwidthの数だけ空白でインデントした文字列を返す関数
+            """
+            lines = code_snippet.splitlines()
+            indented_lines = [ " "*width + f"{line}\n" for line in lines]
+            return "".join(indented_lines)
+        
+        # # richライブラリを使った出力
         theme = "monokai"
-        line_numbers = True
         console = Console()
 
-        console.print("[bold magenta]🧐 Code Suggestions:[/bold magenta]")
-        # FIXME: highlightされるコードの行が一行ズレている。Pythonコードではズレが発生しなかった。Rustではズレている
+
+        rich_objects = []  # 空のリストとして初期化
 
         for suggestion in result.suggestions:
-            # ファイルに固有なのでlexer を毎回作成する
             lexer = Syntax.guess_lexer(path=suggestion.relevant_file)
             
-            console.print(f"[bold yellow]- {suggestion.suggestion_description}[/bold yellow]")
-            console.print(f"   in [green]{suggestion.relevant_file}[/green]")
-            console.print("\n[bold]From:[/bold]")
-            syntax = Syntax(suggestion.relevant_code, lexer, theme=theme, line_numbers=line_numbers, start_line=suggestion.relevant_line_start)
-            console.print(syntax)
-            console.print("[bold]Into:[/bold]")
-            syntax = Syntax(suggestion.improved_code, lexer, theme=theme, line_numbers=line_numbers, start_line=suggestion.relevant_line_start)
-            console.print(syntax)
-            console.print("\n")
+            # スタイルをTextオブジェクトの引数として直接指定
+            rich_objects.append(Text(f"{suggestion.suggestion_description}", style="bold yellow"))
+            rich_objects.append(Text(f"   in {suggestion.relevant_file}", style="green"))
 
+            # From
+            rich_objects.append(Text("From:", style="bold"))
+            syntax = Syntax(suggestion.relevant_code, lexer, theme=theme, line_numbers=True, start_line=suggestion.relevant_line_start)
+            rich_objects.append(syntax)
+            
+            improved_code = align(suggestion.improved_code, len(str(suggestion.relevant_line_start))+3)
+            # Into
+            rich_objects.append(Text("Into:", style="bold"))
+            syntax = Syntax(improved_code, lexer, theme=theme, line_numbers=False)
+            rich_objects.append(syntax)
 
+            rich_objects.append(Text("\n"))
+
+        console.print(Panel(Group(*rich_objects), title="🧐 Code Suggestions:", border_style="white"))
