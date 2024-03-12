@@ -35,7 +35,7 @@ class CodeRefactorAgent(object):
         parser = PydanticOutputParser(pydantic_object=CodeSuggestions)
 
         chain = prompt | llm | parser
-
+        # TODO: OutputParserExceptionのハンドリング
         result: CodeSuggestions = chain.invoke({
             "language": settings['code_refactorer'].language, 
             "format_instruction": parser.get_format_instructions(),
@@ -64,7 +64,8 @@ class CodeRefactorAgent(object):
             
             # スタイルをTextオブジェクトの引数として直接指定
             rich_objects.append(Text(f"{suggestion.suggestion_description}", style="bold yellow"))
-            rich_objects.append(Text(f"   in {suggestion.relevant_file}", style="green"))
+            rich_objects.append(Text("   in ", end=""))
+            rich_objects.append(Text(f"{suggestion.relevant_file}", style="green"))
 
             # From
             rich_objects.append(Text("From:", style="bold"))

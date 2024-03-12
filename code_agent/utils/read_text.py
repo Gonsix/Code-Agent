@@ -1,7 +1,7 @@
 import sys
 def load_from_file(path: str) -> str:
     """ ファイルの内容を読み込み、行番号をつける """
-    f = open(path, 'r')
+    f = open(path, 'r', encoding='utf-8')
     lines = f.read()
     data = ""
     data += f"## file: '{path}'" + "\n\n" 

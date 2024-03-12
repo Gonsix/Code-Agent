@@ -13,7 +13,7 @@ from code_agent.output_schemas import CommitMessage
 
 def gen_commit_msg(repo:str = "."):
 
-    patch = get_diff_head_index()
+    patch = get_diff_head_index(repo_path=repo)
     if patch is None:
         print("codex commit Error: Nothing to commit.")
         os._exit(2)

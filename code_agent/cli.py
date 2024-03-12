@@ -26,7 +26,7 @@ def gen_commit(
         sys.exit(0)
 
     print(f"Creating commit message... repo_path='{repo}'")
-    gen_commit_msg()
+    gen_commit_msg(repo=repo)
 
 
 @app.command(
