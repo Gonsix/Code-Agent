@@ -13,3 +13,15 @@ settings = Dynaconf(
 
 # `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.
 # `settings_files` = Load these files in the order.
+
+def load_config(config_path: str)-> Dynaconf:
+    """
+    This function returns Dynaconf settings from config_path    
+    """
+    settings = Dynaconf(
+        envvar_prefix="DYNACONF",
+        settings_files=[
+            config_path
+        ]
+    )
+    return settings
